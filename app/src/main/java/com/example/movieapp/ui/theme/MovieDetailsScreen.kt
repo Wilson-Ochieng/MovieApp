@@ -21,14 +21,21 @@ import com.bumptech.glide.integration.compose.GlideImage
 @Composable
 fun MovieDetailsScreen(movie: Movie) {
     Column(modifier = Modifier.padding(16.dp)) {
-
         GlideImage(
-            model = "https://image.tmdb.org/t/p/w500${movie.backdropPath}",
+            model = if (movie.backdropPath.isNullOrEmpty()) {
+                // Use a default placeholder image URL or local resource
+                "https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg"
+            } else {
+                "https://image.tmdb.org/t/p/w500${movie.backdropPath}"
+            },
             contentDescription = "Movie Backdrop",
             modifier = Modifier
                 .size(240.dp)
                 .padding(bottom = 16.dp),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            // Optional: Specify error and loading placeholders
+            // error = R.drawable.placeholder_error,
+            // loading = R.drawable.placeholder_loading
         )
         Text(text = movie.title, style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(8.dp))
